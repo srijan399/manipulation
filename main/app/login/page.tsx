@@ -33,7 +33,11 @@ const GoogleComponent = () => {
                 {!session && (
                     <>
                         <p>Not signed in</p>
-                        <Button onClick={() => signIn("google")}>
+                        <Button
+                            onClick={() =>
+                                signIn("google", { callbackUrl: "/" })
+                            }
+                        >
                             Sign in with Google
                         </Button>
                     </>

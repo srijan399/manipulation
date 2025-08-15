@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 // import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/providers/providers";
+import { UserProvider } from "@/context/userContext";
 
 export default function RootLayout({
     children,
@@ -13,7 +14,9 @@ export default function RootLayout({
             <body
             // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
-                <Providers>{children}</Providers>
+                <Providers>
+                    <UserProvider>{children}</UserProvider>
+                </Providers>
             </body>
         </html>
     );

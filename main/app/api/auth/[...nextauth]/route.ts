@@ -44,18 +44,11 @@ const handler = NextAuth({
         }),
     ],
     debug: true,
-    // callbacks: {
-    //     async jwt({ token, user }) {
-    //         if (user) {
-    //             token.id = user.id;
-    //         }
-    //         return token;
-    //     },
-    //     async session({ session, token }) {
-    //         session.user.id = token.id; // Add ID to session
-    //         return session;
-    //     },
-    // },
+    callbacks: {
+        async signIn({ user }) {
+            return true;
+        },
+    },
 });
 
 export { handler as GET, handler as POST };
