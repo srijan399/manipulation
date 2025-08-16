@@ -1,5 +1,0 @@
-POST http://localhost:3000/api/generate
-
-{
-    "query": "Hi, can you help me with analyzing this meeting?"
-}

@@ -12,16 +12,16 @@ export async function POST(req: NextRequest) {
 
     sgMail.setApiKey(apiKey);
 
+    const body = await req.json();
+    const { to, from, subject, text, html } = body;
+
     try {
         const msg = {
-            to: "anjalipandaacs@gmail.com",
-            from: "happilyobnoxious0@gmail.com",
-            subject: "Teri mummy ki jay kya cheez banai",
-            text: "bakchod hahahah",
-            html: `
-            <h1>Hello Anjali Danda!!!</h1>
-            <p>Date pe chalna hain?</p>
-            `,
+            to: to,
+            from: from,
+            subject: subject,
+            text: text,
+            html: html,
         };
 
         await sgMail.send(msg);

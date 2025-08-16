@@ -34,33 +34,37 @@ export default function Home() {
         console.log("Current message:", currentMessage);
         setUserMessage("");
 
-        // try {
-        //     const response = await fetch("/api/generate", {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //         body: JSON.stringify({ prompt: currentMessage }),
-        //     });
-        //     const rawResult = await response.json();
+        try {
+            const response = await fetch("/api/getSummary", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    query: currentMessage,
+                    messages: messages,
+                }),
+            });
 
-        //     console.log("Raw Result:", rawResult.data);
+            const res = await response.json();
+            const assistantResponse = res.response;
 
-        //     // Update messages with the full conversation history from backend
-        //     setMessages(rawResult.data.messages || []);
-        // } catch (err) {
-        //     console.error("Error generating content:", err);
-        //     setMessages((prev) => [
-        //         ...prev,
-        //         {
-        //             role: "system",
-        //             content:
-        //                 "Sorry, there was an error processing your request.",
-        //         },
-        //     ]);
-        // } finally {
-        //     setIsLoading(false);
-        // }
+            console.log("Response here:", res);
+
+            // setMessages();
+        } catch (err) {
+            console.error("Error generating content:", err);
+            setMessages((prev) => [
+                ...prev,
+                {
+                    role: "system",
+                    content:
+                        "Sorry, there was an error processing your request.",
+                },
+            ]);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -131,8 +135,7 @@ export default function Home() {
                         <Label htmlFor="cricket-content">Your Message:</Label>
                         <div className="flex items-center gap-2">
                             <Input
-                                id="cricket-content"
-                                placeholder="Ask me anything about cricket..."
+                                placeholder="Ask me anything about meetings & shi..."
                                 value={userMessage}
                                 onChange={(e) => setUserMessage(e.target.value)}
                                 disabled={isLoading}
