@@ -34,6 +34,14 @@ export default function Home() {
         console.log("Current message:", currentMessage);
         setUserMessage("");
 
+        setMessages((prev) => [
+            ...prev,
+            {
+                role: "user",
+                content: currentMessage,
+            },
+        ]);
+
         try {
             const response = await fetch("/api/getSummary", {
                 method: "POST",
@@ -47,11 +55,40 @@ export default function Home() {
             });
 
             const res = await response.json();
+
             const assistantResponse = res.response;
 
-            console.log("Response here:", res);
+            if (res.intent !== "Misc Mode") {
+                const {
+                    date,
+                    participants,
+                    agenda,
+                    discussion_points,
+                    decision_made,
+                    action_items,
+                    next_steps,
+                } = assistantResponse;
+                console.log(
+                    "Parsed response:",
+                    date!,
+                    participants,
+                    agenda,
+                    discussion_points,
+                    decision_made,
+                    action_items,
+                    next_steps
+                );
+            }
 
-            // setMessages();
+            // console.log("Response here:", assistantResponse);
+
+            setMessages((prev) => [
+                ...prev,
+                {
+                    role: "assistant",
+                    content: JSON.stringify(assistantResponse),
+                },
+            ]);
         } catch (err) {
             console.error("Error generating content:", err);
             setMessages((prev) => [

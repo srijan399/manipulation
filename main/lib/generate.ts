@@ -76,12 +76,6 @@ async function generate(
     prompt: string,
     messages: Array<Message> = []
 ): Promise<string> {
-    console.log("All messages:", messages);
-    messages.push({
-        role: "user",
-        content: prompt,
-    });
-
     const conversationMessages: Array<Message> = [
         {
             role: "system",
